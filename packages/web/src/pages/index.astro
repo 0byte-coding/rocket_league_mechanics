@@ -1,17 +1,83 @@
 ---
 import Layout from "@/layouts/main.astro"
-import { Button } from "@/components/ui/button"
+import MechanicsTable from "@/components/MechanicsTable"
+import { get_mechanics } from "@/lib/data"
+
+const mechanics = get_mechanics()
 ---
 
 <Layout>
-  <div class="flex min-h-svh p-6">
-    <div class="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-      <div>
-        <h1 class="font-medium">Project ready!</h1>
-        <p>You may now add components and start building.</p>
-        <p>We've already added the button component for you.</p>
-        <Button client:load className="mt-2">Button</Button>
+  <div class="min-h-svh bg-background">
+    <!-- Header -->
+    <header class="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+        <div class="flex items-center gap-3">
+          <!-- Rocket League ball icon -->
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <circle cx="14" cy="14" r="13" fill="#1a1a2e" stroke="#4aaeff" stroke-width="1.5"/>
+            <path d="M14 3 Q20 8 20 14 Q20 20 14 25 Q8 20 8 14 Q8 8 14 3Z" fill="none" stroke="#4aaeff" stroke-width="1"/>
+            <ellipse cx="14" cy="14" rx="6" ry="4" fill="none" stroke="#b44ff2" stroke-width="1" transform="rotate(-30 14 14)"/>
+            <circle cx="14" cy="14" r="2" fill="#4aaeff" opacity="0.8"/>
+          </svg>
+          <div>
+            <h1 class="text-sm font-semibold leading-tight tracking-tight">
+              Rocket League Mechanics
+            </h1>
+            <p class="text-[11px] text-muted-foreground leading-tight">
+              {mechanics.length} mechanics catalogued
+            </p>
+          </div>
+        </div>
+
+        <!-- Git repo icon link -->
+        <a
+          href="https://github.com/0byte-coding/rocket_league_mechanics"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          aria-label="View source repository"
+          title="View source repository"
+        >
+          <!-- Generic git repo / source icon (not GitHub-specific) -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="18" r="3"/>
+            <circle cx="6" cy="6" r="3"/>
+            <circle cx="18" cy="6" r="3"/>
+            <path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/>
+            <line x1="12" y1="12" x2="12" y2="15"/>
+          </svg>
+          <span class="hidden sm:inline">Source</span>
+        </a>
       </div>
-    </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6">
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold">Mechanics Database</h2>
+        <p class="mt-1 text-sm text-muted-foreground">
+          Browse, search and filter all known Rocket League mechanics. Click any row to expand details.
+        </p>
+      </div>
+
+      <MechanicsTable client:load mechanics={mechanics} />
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 border-t border-border">
+      <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+        <p class="text-center text-xs text-muted-foreground">
+          Community-maintained list of Rocket League mechanics &mdash;
+          <a
+            href="https://github.com/0byte-coding/rocket_league_mechanics"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="underline hover:text-foreground"
+          >
+            contribute via PR
+          </a>
+        </p>
+      </div>
+    </footer>
   </div>
 </Layout>
