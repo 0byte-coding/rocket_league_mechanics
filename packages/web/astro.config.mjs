@@ -6,6 +6,8 @@ import react from "@astrojs/react"
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://0byte-coding.github.io",
+  base: "/rocket_league_mechanics",
   vite: {
     plugins: [tailwindcss()],
   },
