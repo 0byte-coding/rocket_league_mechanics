@@ -1,0 +1,1512 @@
+/*
+ * Rocket League Mechanics Data
+ * =============================
+ *
+ * This file contains a curated list of Rocket League mechanics, their attributes,
+ * difficulty ratings, and metadata for use in the RL Mechanics web application.
+ *
+ * === Fields ===
+ *
+ * id (string, required):
+ *   Unique slug kebab-case identifier for programmatic use (e.g. "half-flip").
+ *
+ * name (string, required):
+ *   The common display name of the mechanic.
+ *
+ * aliases (string[], optional):
+ *   Alternative names the mechanic is known by (e.g. "Cabbage Muncher" → ["Seba Flick"]).
+ *
+ * description (string, required):
+ *   A short (1-3 sentence) explanation of what the mechanic is.
+ *
+ * category (string, required):
+ *   The primary category the mechanic belongs to.
+ *   Allowed values:
+ *     "flip_reset"    — Mechanics that involve resetting your flip via ball contact
+ *     "dribble_flick" — Flicks performed while the ball is carried on your car
+ *     "pinch"         — Any form of ball pinch (car-to-ball, car-to-wall, etc.)
+ *     "powershot"     — High-power shots on net
+ *     "dribble"       — Ground or air dribbling the ball
+ *     "air_dribble"   — Air dribbling specifically
+ *     "redirect"      — Redirecting the ball's trajectory
+ *     "pogo"          — Pogo stick-like bounces on the ball
+ *     "dash"          — Dash-based movement, recovery, or speed techniques
+ *     "save"          — Defensive/saving mechanics
+ *     "shot"          — General shooting mechanics
+ *     "movement"      — Car movement/maneuvering techniques
+ *     "unknown"       — Not yet categorized
+ *
+ * type (string, optional):
+ *   Where the mechanic is typically performed.
+ *   Values: "ground", "air", "wall", "ceiling", "mixed"
+ *
+ * difficulty (number, required, 0-100):
+ *   How difficult the mechanic is to learn and execute consistently.
+ *   Calibration guide:
+ *     0-20   — Bronze to Gold (basic car control)
+ *     20-40  — Platinum to Diamond (intermediate)
+ *     40-60  — Champion 1-3 (advanced)
+ *     60-75  — Grand Champion 1-3 (high-level)
+ *     75-85  — SSL / Low-Pro (elite)
+ *     85-95  — Freestyler tier
+ *     95-100 — Nigh impossible / undiscovered
+ *   Reference points:
+ *     60 ≈ Champion 3 (Ground Pinch)
+ *     80 ≈ SSL average
+ *     85 ≈ Pro player
+ *     95 ≈ Freestyler specialist
+ *
+ * viability (number, required, 0-100):
+ *   How effective/useful the mechanic is in a competitive match setting.
+ *   0   = Never works, purely freestyle/flashy
+ *   50  = Works ~50% of the time against good defenders
+ *   100 = Guaranteed goal if executed
+ *   Note: Even flashy mechanics can have high viability if executed in the
+ *   right situation. This reflects the % chance it beats a competent defender.
+ *
+ * tags (string[], required):
+ *   Keywords that describe the mechanic's properties. Used for filtering and
+ *   search. Examples: "backwards", "recovery", "flip_cancel", "air_roll",
+ *   "directional_air_roll", "musty", "stall", "multi_touch", etc.
+ *
+ * prerequisites (string[], optional):
+ *   Array of mechanic 'id' values that are recommended to master before
+ *   attempting this mechanic. Helps build a learning path.
+ *
+ * proponents (string[], optional):
+ *   Notable players (pros or content creators) particularly known for
+ *   popularizing or excelling at this mechanic.
+ *
+ * input_summary (string, optional):
+ *   A brief description of the controller inputs required
+ *   (e.g. "Air roll left + jump + boost + front flip").
+ *
+ * video_clips (object[], optional):
+ *   Array of YouTube video references with optional time ranges for quick
+ *   visual reference.
+ *   Fields:
+ *     url  (string, required) — Full YouTube URL
+ *     start (number, optional) — Start time in seconds
+ *     end   (number, optional) — End time in seconds
+ *
+ * === Notes ===
+ * - Difficulty and viability are subjective estimates based on community
+ *   consensus and may vary across patches/rankings.
+ * - Categories may overlap; the 'category' field holds the primary grouping,
+ *   while 'tags' capture secondary classifications.
+ * - Feel free to submit corrections via PR.
+ */
+{
+  "version": 1,
+  "mechanics": [
+    /*
+     * ==============================
+     *  FOUNDATIONAL MECHANICS
+     * ==============================
+     */
+    {
+      "id": "fast-aerial",
+      "name": "Fast Aerial",
+      "description": "A technique to reach aerial height quickly by jumping, boosting, and pulling back simultaneously. The foundation of all aerial play.",
+      "category": "unknown",
+      "type": "air",
+      "difficulty": 30,
+      "viability": 85,
+      "tags": ["aerial", "foundational", "speed", "jump"],
+      "prerequisites": [],
+      "input_summary": "Jump + boost + pull back on left stick + second jump"
+    },
+    {
+      "id": "ground-dribble",
+      "name": "Ground Dribble",
+      "description": "Carrying the ball on top of your car while driving on the ground. The foundation of all dribble and flick mechanics.",
+      "category": "dribble",
+      "type": "ground",
+      "difficulty": 35,
+      "viability": 70,
+      "tags": ["dribble", "ground", "foundational", "control"],
+      "prerequisites": []
+    },
+    {
+      "id": "air-dribble",
+      "name": "Air Dribble",
+      "description": "Carrying the ball through the air using boost and aerial control. The foundation of air-dribble-based mechanics.",
+      "category": "air_dribble",
+      "type": "air",
+      "difficulty": 50,
+      "viability": 50,
+      "tags": ["aerial", "dribble", "foundational", "control", "boost"],
+      "prerequisites": ["fast-aerial"]
+    },
+
+    /*
+     * ==============================
+     *  MOVEMENT / RECOVERY
+     * ==============================
+     */
+    {
+      "id": "half-flip",
+      "name": "Half Flip",
+      "description": "A quick 180-degree turn used to reverse direction while maintaining momentum. The most essential recovery mechanic.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 25,
+      "viability": 95,
+      "tags": ["backwards", "recovery", "flip_cancel", "movement"],
+      "prerequisites": [],
+      "input_summary": "Backflip + cancel + air roll",
+      "proponents": ["ApparentlyJack", "Lethamyr"]
+    },
+    {
+      "id": "speedflip",
+      "name": "Speedflip",
+      "description": "A diagonal flip canceled sideways that allows supersonic speed in a straight line almost instantly. Critical for kickoffs and recoveries.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 55,
+      "viability": 80,
+      "tags": ["fast", "recovery", "kickoff", "flip_cancel", "movement"],
+      "prerequisites": ["half-flip"],
+      "input_summary": "Diagonal flip + cancel + air roll correction",
+      "proponents": ["ApparentlyJack", "Musty", "Flakes"]
+    },
+    {
+      "id": "wave-dash",
+      "name": "Wave Dash",
+      "description": "Performing a dodge just before landing to preserve supersonic speed. Used for quick recovery after aerial play or when falling.",
+      "category": "unknown",
+      "type": "mixed",
+      "difficulty": 20,
+      "viability": 85,
+      "tags": ["recovery", "ground", "speed", "movement"],
+      "prerequisites": [],
+      "input_summary": "Jump + dodge into ground before landing"
+    },
+    {
+      "id": "zap-dash",
+      "name": "Zap Dash",
+      "description": "A wave dash performed on a wall or ceiling to gain instant supersonic speed. Named after Zap.",
+      "category": "unknown",
+      "type": "wall",
+      "difficulty": 60,
+      "viability": 50,
+      "tags": ["recovery", "speed", "wall", "movement"],
+      "prerequisites": ["wave-dash"],
+      "proponents": ["Zap"]
+    },
+    {
+      "id": "180-dash",
+      "name": "180° Dash",
+      "description": "Dashing 180 degrees to quickly change direction while maintaining flip usage.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 30,
+      "viability": 65,
+      "tags": ["movement", "dash", "turn"],
+      "prerequisites": ["wave-dash"]
+    },
+    {
+      "id": "360-dash",
+      "name": "360° Dash",
+      "description": "A full 360-degree rotation during a dash, often used for style or tricky recoveries.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 50,
+      "viability": 40,
+      "tags": ["movement", "dash", "style"],
+      "prerequisites": ["180-dash"]
+    },
+    {
+      "id": "dash-flick",
+      "name": "Dash Flick",
+      "description": "A flick generated by dashing into the ball while it is on your car, creating a quick forward shot.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 40,
+      "viability": 55,
+      "tags": ["dash", "flick", "ground"],
+      "prerequisites": ["wave-dash"]
+    },
+    {
+      "id": "double-dash",
+      "name": "Double Dash",
+      "description": "Using both flips in quick succession for extra speed or tricky movement patterns.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 65,
+      "viability": 35,
+      "tags": ["dash", "movement", "speed"],
+      "prerequisites": ["wave-dash"]
+    },
+    {
+      "id": "haon-dash",
+      "name": "Haon Dash",
+      "description": "A multi-dash technique that chains dashes together for unpredictable speed changes. Popularized by Haon.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 70,
+      "viability": 30,
+      "tags": ["dash", "movement", "speed", "chain"],
+      "prerequisites": ["double-dash"],
+      "proponents": ["Haon"]
+    },
+    {
+      "id": "back-dashes",
+      "name": "Back Dashes",
+      "description": "Dashing backward while maintaining control, used for shadow defense or retreating plays.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 40,
+      "viability": 50,
+      "tags": ["dash", "movement", "backwards", "defense"],
+      "prerequisites": ["wave-dash"]
+    },
+    {
+      "id": "horse-dash",
+      "name": "Horse Dash",
+      "description": "A rapid side-to-side dashing pattern resembling a galloping horse, used for controlled speed.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 50,
+      "viability": 30,
+      "tags": ["dash", "movement", "style"],
+      "prerequisites": ["wave-dash"]
+    },
+    {
+      "id": "wall-dash",
+      "name": "Wall Dash",
+      "description": "Performing a wave dash on the wall to maintain or gain speed while driving on vertical surfaces.",
+      "category": "unknown",
+      "type": "wall",
+      "difficulty": 45,
+      "viability": 55,
+      "tags": ["dash", "wall", "recovery", "movement"],
+      "prerequisites": ["wave-dash"]
+    },
+    {
+      "id": "curve-dash",
+      "name": "Curve Dash",
+      "description": "A dash that follows a curved trajectory, allowing sharp angled turns while maintaining flip control.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 60,
+      "viability": 40,
+      "tags": ["dash", "movement", "curve"],
+      "prerequisites": ["wave-dash"]
+    },
+    {
+      "id": "hel-jump-multi-dash",
+      "name": "Hel Jump Multi Dash",
+      "description": "Chaining multiple dashes after a Hel Jump for complex aerial movement patterns.",
+      "category": "unknown",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 20,
+      "tags": ["dash", "air", "multi_dash", "hel_jump"],
+      "prerequisites": ["hel-jump", "double-dash"]
+    },
+    {
+      "id": "slingshot",
+      "name": "Slingshot",
+      "description": "Using boost and a well-timed dodge to launch the car at high speed in a specific direction.",
+      "category": "unknown",
+      "type": "mixed",
+      "difficulty": 55,
+      "viability": 45,
+      "tags": ["movement", "speed", "dash"],
+      "prerequisites": []
+    },
+    {
+      "id": "short-dash",
+      "name": "Short Dash",
+      "description": "A minimal-length dash used for micro-adjustments in positioning without committing to full distance.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 30,
+      "viability": 60,
+      "tags": ["dash", "movement", "adjustment"],
+      "prerequisites": ["wave-dash"]
+    },
+    {
+      "id": "astomo-wall-360-dash",
+      "name": "Astomo/Wall 360 Dash",
+      "description": "A 360-degree dash performed on the wall to maintain momentum and reposition. Popularized by Astomo.",
+      "category": "unknown",
+      "type": "wall",
+      "difficulty": 65,
+      "viability": 35,
+      "tags": ["dash", "wall", "360", "movement"],
+      "prerequisites": ["360-dash", "wall-dash"],
+      "proponents": ["Astomo"]
+    },
+    {
+      "id": "side-entry-dash",
+      "name": "Side Entry Dash",
+      "description": "Approaching the ball from the side with a dash to generate an unexpected angle or flick.",
+      "category": "unknown",
+      "type": "ground",
+      "difficulty": 55,
+      "viability": 40,
+      "tags": ["dash", "flick", "side"],
+      "prerequisites": ["dash-flick"]
+    },
+    {
+      "id": "ceiling-dash",
+      "name": "Ceiling Dash",
+      "description": "A wave dash performed on the ceiling to maintain speed while driving upside-down.",
+      "category": "unknown",
+      "type": "ceiling",
+      "difficulty": 50,
+      "viability": 40,
+      "tags": ["dash", "ceiling", "recovery", "movement"],
+      "prerequisites": ["wave-dash"]
+    },
+    {
+      "id": "reverse-ceiling-dash",
+      "name": "Reverse Ceiling Dash",
+      "description": "A ceiling dash performed backward, allowing for unexpected approaches from the ceiling.",
+      "category": "unknown",
+      "type": "ceiling",
+      "difficulty": 60,
+      "viability": 30,
+      "tags": ["dash", "ceiling", "backwards", "movement"],
+      "prerequisites": ["ceiling-dash"]
+    },
+
+    /*
+     * ==============================
+     *  FLICK
+     * ==============================
+     */
+    {
+      "id": "45-flick",
+      "name": "45° Flick",
+      "description": "A flick at a 45-degree angle, created by turning your car slightly and flipping. One of the most reliable and versatile flicks.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 30,
+      "viability": 65,
+      "tags": ["flick", "ground", "angle", "foundational"],
+      "prerequisites": []
+    },
+    {
+      "id": "athena-flick",
+      "name": "Athena Flick",
+      "description": "A flick that combines a front flip with a diagonal air roll to produce a powerful, rising shot. Named after player Athena.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 55,
+      "viability": 50,
+      "tags": ["flick", "ground", "power", "air_roll"],
+      "prerequisites": ["45-flick"],
+      "proponents": ["Athena"]
+    },
+    {
+      "id": "front-flip-flick",
+      "name": "Front-Flip Flick",
+      "description": "A basic front flip flick that pops the ball forward with moderate power. Easy to learn.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 25,
+      "viability": 55,
+      "tags": ["flick", "ground", "front_flip", "basic"],
+      "prerequisites": []
+    },
+    {
+      "id": "90-flick",
+      "name": "90° Flick",
+      "description": "A flick that sends the ball at a 90-degree angle relative to your approach, useful for catching defenders off guard.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 45,
+      "viability": 55,
+      "tags": ["flick", "ground", "angle"],
+      "prerequisites": ["45-flick"]
+    },
+    {
+      "id": "180-flick",
+      "name": "180° Flick",
+      "description": "A flick that reverses the ball 180 degrees behind you, often used as a pass or unexpected shot.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 50,
+      "viability": 40,
+      "tags": ["flick", "ground", "backwards", "angle"],
+      "prerequisites": ["45-flick"]
+    },
+    {
+      "id": "turtle-flick",
+      "name": "Turtle Flick",
+      "description": "A flick performed while the car is upside-down (turtle position), using a backflip to launch the ball backward.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 40,
+      "viability": 30,
+      "tags": ["flick", "ground", "turtle", "backwards", "upside_down"],
+      "prerequisites": []
+    },
+    {
+      "id": "musty-flick",
+      "name": "Musty Flick",
+      "description": "A backward flick where the car scoops the ball from underneath and launches it forward with a backflip cancel. Named after Musty.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 65,
+      "viability": 60,
+      "tags": ["flick", "backwards", "pop", "musty", "power"],
+      "prerequisites": ["45-flick"],
+      "proponents": ["Musty"]
+    },
+    {
+      "id": "breezi-flick",
+      "name": "Breezi Flick",
+      "description": "A flick that combines a 45-degree turn with a backflip cancel and air roll, creating a fast, unpredictable shot. Named after Breezi.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 55,
+      "viability": 55,
+      "tags": ["flick", "ground", "air_roll", "musty_variant"],
+      "prerequisites": ["musty-flick", "45-flick"],
+      "proponents": ["Breezi"]
+    },
+    {
+      "id": "jzr-flick",
+      "name": "Jzr Flick",
+      "description": "A flick that uses a side flip cancel to generate a fast, low shot with deceptive placement. Named after Jzr.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 70,
+      "viability": 45,
+      "tags": ["flick", "ground", "flip_cancel", "side_flip"],
+      "prerequisites": ["breezi-flick"],
+      "proponents": ["Jzr"]
+    },
+    {
+      "id": "270-flick",
+      "name": "270° Flick",
+      "description": "A full 270-degree rotation during a flick that sends the ball in a surprising direction with high power.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 60,
+      "viability": 40,
+      "tags": ["flick", "ground", "angle", "rotation"],
+      "prerequisites": ["180-flick"]
+    },
+    {
+      "id": "180-wavedash-flick",
+      "name": "180° Wavedash Flick",
+      "description": "Combining a 180-degree turn with a wavedash into the ball to generate a flick from a unique angle.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 65,
+      "viability": 40,
+      "tags": ["flick", "ground", "wavedash", "angle"],
+      "prerequisites": ["180-flick", "wave-dash"]
+    },
+    {
+      "id": "mawzky-flick",
+      "name": "Mawzky Flick",
+      "description": "A forward flick variant that bounces the ball off the underside of the car for a low, fast shot. Named after Mawzky.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 60,
+      "viability": 50,
+      "tags": ["flick", "ground", "forward", "low"],
+      "prerequisites": ["front-flip-flick"],
+      "proponents": ["Mawzky"]
+    },
+    {
+      "id": "slingshot-flick",
+      "name": "Slingshot Flick",
+      "description": "Using the slingshot momentum mechanic to generate a powerful flick with minimal setup.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 50,
+      "viability": 45,
+      "tags": ["flick", "ground", "slingshot", "power"],
+      "prerequisites": ["slingshot"]
+    },
+    {
+      "id": "suffo-flick",
+      "name": "Suffo Flick",
+      "description": "A flick that uses a delayed backflip cancel to generate a high-arcing shot that is hard to read. Named after Suffo.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 70,
+      "viability": 35,
+      "tags": ["flick", "ground", "backflip", "delay"],
+      "prerequisites": ["musty-flick"],
+      "proponents": ["Suffo"]
+    },
+    {
+      "id": "bismillah-flick",
+      "name": "Bismillah Flick",
+      "description": "A high-difficulty flick involving a full 360 air roll while flipping, creating an unpredictable shot trajectory.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 75,
+      "viability": 30,
+      "tags": ["flick", "ground", "air_roll", "360", "style"],
+      "prerequisites": ["musty-flick", "360-dash"],
+      "proponents": ["Bismillah"]
+    },
+    {
+      "id": "cabbage-muncher",
+      "name": "Cabbage Muncher (Seba Flick)",
+      "description": "A flick that involves scooping the ball with the underside of the car while upside-down, creating a high-arcing shot with significant power.",
+      "aliases": ["Seba Flick"],
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 80,
+      "viability": 25,
+      "tags": ["flick", "ground", "upside_down", "scoop", "power"],
+      "prerequisites": ["turtle-flick", "musty-flick"],
+      "proponents": ["Seba"]
+    },
+    {
+      "id": "classy-flick",
+      "name": "Classy Flick",
+      "description": "A refined, elegant flick that uses minimal car movement to generate a perfectly placed shot with high precision.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 75,
+      "viability": 40,
+      "tags": ["flick", "ground", "precision", "style"],
+      "prerequisites": ["45-flick", "breezi-flick"]
+    },
+    {
+      "id": "windmill",
+      "name": "Windmill",
+      "description": "A dribble flick where the car spins 360 degrees horizontally before flicking, adding style and deception.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 45,
+      "viability": 35,
+      "tags": ["flick", "ground", "spin", "style"],
+      "prerequisites": ["45-flick"]
+    },
+    {
+      "id": "360-windmill",
+      "name": "360 Windmill",
+      "description": "An extended windmill flick where the car completes a full 360 rotation while maintaining the dribble before flicking.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 60,
+      "viability": 25,
+      "tags": ["flick", "ground", "360", "spin", "style"],
+      "prerequisites": ["windmill"]
+    },
+
+    /*
+     * ==============================
+     *  FLIP RESETS
+     * ==============================
+     */
+    {
+      "id": "flip-reset",
+      "name": "Flip Reset",
+      "description": "Contacting the ball with all four wheels while in the air to regain your flip. The foundation of advanced aerial mechanics.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 70,
+      "viability": 45,
+      "tags": ["flip_reset", "aerial", "foundational", "wheels_contact"],
+      "prerequisites": ["fast-aerial"],
+      "input_summary": "Jump + boost + air roll to orient wheels to ball + touch ball with wheels"
+    },
+    {
+      "id": "arsenal-reset",
+      "name": "Arsenal Reset",
+      "description": "A flip reset variation where the car approaches the ball from underneath with specific positioning for a clean, quick reset. Named after Arsenal.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 35,
+      "tags": ["flip_reset", "aerial", "clean"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Arsenal"]
+    },
+    {
+      "id": "pre-flip-reset",
+      "name": "Pre-flip Reset",
+      "description": "Using a flip before making contact with the ball to get a reset, often used for unexpected angles and quick follow-ups.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 70,
+      "viability": 40,
+      "tags": ["flip_reset", "aerial", "pre_flip"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "ceiling-shot",
+      "name": "Ceiling Shot",
+      "description": "Driving up the wall onto the ceiling, falling off to gain a flip reset, and then air dribbling or shooting. A staple mechanic.",
+      "category": "flip_reset",
+      "type": "ceiling",
+      "difficulty": 65,
+      "viability": 40,
+      "tags": ["flip_reset", "ceiling", "aerial", "foundational"],
+      "prerequisites": ["flip-reset"],
+      "input_summary": "Drive up wall + fall off ceiling + air dribble + flip into shot"
+    },
+    {
+      "id": "rapid-reset",
+      "name": "Rapid Reset",
+      "description": "Performing a flip reset and immediately using the flip in rapid succession, often chaining multiple touches.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 25,
+      "tags": ["flip_reset", "aerial", "fast", "chain"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "pop-reset",
+      "name": "Pop Reset",
+      "description": "Popping the ball up slightly and then catching it with your wheels for a reset in tight spaces.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 60,
+      "viability": 45,
+      "tags": ["flip_reset", "aerial", "pop"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "stall-reset",
+      "name": "Stall Reset",
+      "description": "Using a stall (air roll + opposite stick) to cancel momentum and get a clean flip reset from the ball.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 65,
+      "viability": 35,
+      "tags": ["flip_reset", "aerial", "stall"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "heli-reset",
+      "name": "Heli Reset",
+      "description": "A flip reset performed while the car is spinning rapidly like a helicopter, using continuous air roll. Extremely difficult timing.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 15,
+      "tags": ["flip_reset", "aerial", "heli", "air_roll", "spin"],
+      "prerequisites": ["flip-reset", "hel-jump"],
+      "proponents": ["Heli"]
+    },
+    {
+      "id": "maktuf-reset",
+      "name": "Maktuf",
+      "description": "A controversial flip reset variant where the car approaches from an inverted position to contact the ball with the underside of the car rather than wheels.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 20,
+      "tags": ["flip_reset", "aerial", "inverted", "underside"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Maktuf"]
+    },
+    {
+      "id": "360-maktuf",
+      "name": "360 Maktuf",
+      "description": "A Maktuf reset with a full 360-degree rotation before making contact, adding significant difficulty and style.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 90,
+      "viability": 10,
+      "tags": ["flip_reset", "aerial", "inverted", "360", "style"],
+      "prerequisites": ["maktuf-reset"]
+    },
+    {
+      "id": "pancake-reset",
+      "name": "Pancake",
+      "description": "A flip reset where the car flattens out horizontally (pancake position) to get a clean reset, used for controlled follow-ups.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 75,
+      "viability": 30,
+      "tags": ["flip_reset", "aerial", "pancake", "flat"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "wave-dash-reset",
+      "name": "Wave-Dash Reset",
+      "description": "Combining a wave dash motion with a flip reset, using the landing momentum to maintain speed after the reset.",
+      "category": "flip_reset",
+      "type": "mixed",
+      "difficulty": 75,
+      "viability": 30,
+      "tags": ["flip_reset", "wavedash", "ground", "chain"],
+      "prerequisites": ["flip-reset", "wave-dash"]
+    },
+    {
+      "id": "arsenal-dash-reset",
+      "name": "Arsenal Dash Reset",
+      "description": "An Arsenal-themed variation that incorporates a dash into the flip reset setup for unique angles. Named after Arsenal.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 20,
+      "tags": ["flip_reset", "aerial", "dash"],
+      "prerequisites": ["arsenal-reset", "dash-flick"],
+      "proponents": ["Arsenal"]
+    },
+    {
+      "id": "murie-reset",
+      "name": "Murie Reset",
+      "description": "A flip reset variant that involves a quick double-tap on the ball with a reset in between. Popularized by Murie.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 25,
+      "tags": ["flip_reset", "aerial", "double_tap"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Murie"]
+    },
+    {
+      "id": "front-flip-reset",
+      "name": "Front-flip Reset",
+      "description": "A flip reset where the car approaches the ball in a front-flip orientation, creating a forward-facing reset.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 75,
+      "viability": 35,
+      "tags": ["flip_reset", "aerial", "front_flip"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "side-flip-reset",
+      "name": "Side-Flip Reset",
+      "description": "A flip reset executed with a side-flip approach, creating an unusual angle for the follow-up.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 75,
+      "viability": 30,
+      "tags": ["flip_reset", "aerial", "side_flip"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "jerry-reset",
+      "name": "Jerry Reset",
+      "description": "A flip reset variant that uses a unique car rotation to get the reset from an unusual angle. Named after Jerry.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 25,
+      "tags": ["flip_reset", "aerial", "rotation"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Jerry"]
+    },
+    {
+      "id": "jump-reset",
+      "name": "Jump Reset",
+      "description": "Using a late jump instead of a dodge to get a reset from the ball, useful for preserving boost and maintaining control.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 60,
+      "viability": 40,
+      "tags": ["flip_reset", "aerial", "jump"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "tko-reset",
+      "name": "TKO Reset",
+      "description": "A powerful flip reset variant that focuses on knocking the ball downward with authority. Named after TKO.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 20,
+      "tags": ["flip_reset", "aerial", "power", "downward"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["TKO"]
+    },
+    {
+      "id": "purple-shot",
+      "name": "Purple Shot",
+      "description": "A flip reset that results in a purple-colored shockwave (in freestyle mod/vanilla), indicating a perfectly clean reset into a shot.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 15,
+      "tags": ["flip_reset", "aerial", "purple", "clean", "style"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "evample-reset",
+      "name": "Evample Reset",
+      "description": "A smooth, controlled flip reset variant known for its aesthetic perfection. Named after Evample.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 20,
+      "tags": ["flip_reset", "aerial", "style", "smooth"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Evample"]
+    },
+    {
+      "id": "musty-reset",
+      "name": "Musty Reset",
+      "description": "A flip reset performed after executing a musty flick motion in the air, combining a reset with the musty angle.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 70,
+      "viability": 30,
+      "tags": ["flip_reset", "aerial", "musty"],
+      "prerequisites": ["flip-reset", "musty-flick"],
+      "proponents": ["Musty"]
+    },
+    {
+      "id": "henko-reset",
+      "name": "Henko Reset",
+      "description": "A clean, precise flip reset variant popularized by Henko, known for its mechanical perfection and control.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 25,
+      "tags": ["flip_reset", "aerial", "clean", "precision"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Henko"]
+    },
+    {
+      "id": "squishy-reset",
+      "name": "Squishy Reset",
+      "description": "A flip reset with a unique air roll approach that makes the reset look effortless. Associated with SquishyMuffinz.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 75,
+      "viability": 30,
+      "tags": ["flip_reset", "aerial", "smooth", "air_roll"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["SquishyMuffinz"]
+    },
+    {
+      "id": "shay-reset",
+      "name": "Shay Reset",
+      "description": "A flip reset variant that uses a sideways approach and specific air roll to get a quick, efficient reset. Named after Shay.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 20,
+      "tags": ["flip_reset", "aerial", "sideways", "efficient"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Shay"]
+    },
+    {
+      "id": "jakze-reset",
+      "name": "Jakze Reset",
+      "description": "A fast, technical flip reset that emphasizes speed and minimal ball contact. Named after Jakze.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 25,
+      "tags": ["flip_reset", "aerial", "fast", "technical"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Jakze"]
+    },
+    {
+      "id": "reverse-jakze-reset",
+      "name": "Reverse-Jakze Reset",
+      "description": "A reverse approach to the Jakze reset, approaching the ball from underneath with inverted car orientation.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 15,
+      "tags": ["flip_reset", "aerial", "reverse", "inverted"],
+      "prerequisites": ["jakze-reset"],
+      "proponents": ["Jakze"]
+    },
+    {
+      "id": "ground-dash-reset",
+      "name": "Ground-Dash Reset",
+      "description": "Using a ground dash to pop the ball up and immediately get a flip reset, chaining ground and air mechanics.",
+      "category": "flip_reset",
+      "type": "mixed",
+      "difficulty": 70,
+      "viability": 35,
+      "tags": ["flip_reset", "ground", "dash", "chain"],
+      "prerequisites": ["flip-reset", "dash-flick"]
+    },
+    {
+      "id": "lix-jump",
+      "name": "Lix Jump",
+      "description": "A jump-based flip reset that uses precise timing to get a reset from a minimal height. Named after Lix.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 20,
+      "tags": ["flip_reset", "jump", "precision"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Lix"]
+    },
+    {
+      "id": "net-reset",
+      "name": "Net Reset",
+      "description": "A flip reset performed directly above the opponent's net, using the backboard or crossbar for additional setup.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 75,
+      "viability": 25,
+      "tags": ["flip_reset", "aerial", "net", "backboard"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "car-reset",
+      "name": "Car Reset",
+      "description": "Using an opponent's car to get a flip reset rather than the ball. Extremely situational.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 60,
+      "viability": 20,
+      "tags": ["flip_reset", "aerial", "car_contact", "situational"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "murie-pop",
+      "name": "Murie Pop",
+      "description": "A pop-based flip reset that gently pops the ball before resetting, allowing for extended air dribble control. Named after Murie.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 75,
+      "viability": 25,
+      "tags": ["flip_reset", "aerial", "pop", "control"],
+      "prerequisites": ["murie-reset"],
+      "proponents": ["Murie"]
+    },
+    {
+      "id": "hel-jump",
+      "name": "Hel Jump",
+      "description": "A technique where the car spins rapidly in a helicopter-like motion during a jump, often used as setup for resets.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 65,
+      "viability": 25,
+      "tags": ["flip_reset", "aerial", "heli", "spin", "setup"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Heli"]
+    },
+    {
+      "id": "turtle-reset",
+      "name": "Turtle Reset",
+      "description": "A flip reset performed from the turtle (upside-down) position, requiring precise orientation control.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 70,
+      "viability": 25,
+      "tags": ["flip_reset", "aerial", "turtle", "upside_down"],
+      "prerequisites": ["flip-reset", "turtle-flick"]
+    },
+    {
+      "id": "backflip-cancel-reset",
+      "name": "Backflip Cancel",
+      "description": "Using a backflip cancel to orient the car for a flip reset, combining recovery with setup.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 60,
+      "viability": 35,
+      "tags": ["flip_reset", "aerial", "backflip", "flip_cancel"],
+      "prerequisites": ["flip-reset", "half-flip"]
+    },
+    {
+      "id": "frontflip-cancel-reset",
+      "name": "Frontflip Cancel",
+      "description": "Using a frontflip cancel to adjust car position for a flip reset, useful for quick adjustments.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 60,
+      "viability": 35,
+      "tags": ["flip_reset", "aerial", "frontflip", "flip_cancel"],
+      "prerequisites": ["flip-reset"]
+    },
+    {
+      "id": "murie-cancel",
+      "name": "Murie Cancel",
+      "description": "A cancelling technique specific to Murie's flip reset style, incorporating a quick cancel for precise ball contact.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 75,
+      "viability": 20,
+      "tags": ["flip_reset", "aerial", "flip_cancel", "murie"],
+      "prerequisites": ["murie-reset"],
+      "proponents": ["Murie"]
+    },
+    {
+      "id": "amalix-jump",
+      "name": "Amalix Jump",
+      "description": "A complex jump technique that chains multiple inputs to achieve a unique aerial trajectory for reset setups. Named after Amalix.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 15,
+      "tags": ["flip_reset", "aerial", "jump", "technique"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Amalix"]
+    },
+    {
+      "id": "spam-blitz-dash-reset",
+      "name": "Spam/Blitz Dash Reset",
+      "description": "A rapid dash reset that appears 'spammy' — chaining dashes and resets in quick succession for unpredictable offense.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 15,
+      "tags": ["flip_reset", "aerial", "dash", "spam", "chain"],
+      "prerequisites": ["rapid-reset", "dash-flick"]
+    },
+    {
+      "id": "hyd-reset",
+      "name": "HYD Reset",
+      "description": "A smooth, hydraulic-style flip reset that flows seamlessly into an air dribble. Named after HYD.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 20,
+      "tags": ["flip_reset", "aerial", "smooth", "flow"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["HYD"]
+    },
+    {
+      "id": "ceiling-shuffle",
+      "name": "Ceiling Shuffle",
+      "description": "Shuffling along the ceiling before dropping off for a flip reset, adding unpredictability to ceiling shots.",
+      "category": "flip_reset",
+      "type": "ceiling",
+      "difficulty": 70,
+      "viability": 25,
+      "tags": ["flip_reset", "ceiling", "shuffle", "unpredictable"],
+      "prerequisites": ["ceiling-shot"]
+    },
+    {
+      "id": "reverse-ceiling-shuffle",
+      "name": "Reverse Ceiling Shuffle",
+      "description": "A ceiling shuffle performed backward, making the approach even harder to read.",
+      "category": "flip_reset",
+      "type": "ceiling",
+      "difficulty": 75,
+      "viability": 20,
+      "tags": ["flip_reset", "ceiling", "shuffle", "backwards"],
+      "prerequisites": ["ceiling-shuffle"]
+    },
+    {
+      "id": "osuea-reset",
+      "name": "Osuea Reset",
+      "description": "A highly technical flip reset involving unique air roll patterns. Named after Osuea.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 15,
+      "tags": ["flip_reset", "aerial", "technical", "air_roll"],
+      "prerequisites": ["flip-reset"],
+      "proponents": ["Osuea"]
+    },
+    {
+      "id": "backwards-jerry-reset",
+      "name": "Backwards Jerry Reset",
+      "description": "Executing the Jerry reset approach while the car is backward, adding inversion to the technique.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 15,
+      "tags": ["flip_reset", "aerial", "backwards", "jerry"],
+      "prerequisites": ["jerry-reset"],
+      "proponents": ["Jerry"]
+    },
+    {
+      "id": "reverse-pancake-reset",
+      "name": "Reverse Pancake Reset",
+      "description": "A pancake reset performed with the car inverted, requiring precise orientation control.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 20,
+      "tags": ["flip_reset", "aerial", "pancake", "reverse", "inverted"],
+      "prerequisites": ["pancake-reset"]
+    },
+    {
+      "id": "backwards-lix-reset",
+      "name": "Backwards Lix Reset",
+      "description": "The Lix jump technique executed while the car is facing backward, adding significant difficulty.",
+      "category": "flip_reset",
+      "type": "air",
+      "difficulty": 85,
+      "viability": 15,
+      "tags": ["flip_reset", "aerial", "backwards", "lix"],
+      "prerequisites": ["lix-jump"],
+      "proponents": ["Lix"]
+    },
+
+    /*
+     * ==============================
+     *  POGOS
+     * ==============================
+     */
+    {
+      "id": "pogo",
+      "name": "Pogo",
+      "description": "Bouncing the ball off the underside of your car while in the air to maintain height and control, like a pogo stick.",
+      "category": "pogo",
+      "type": "air",
+      "difficulty": 55,
+      "viability": 35,
+      "tags": ["pogo", "aerial", "bounce", "control"],
+      "prerequisites": []
+    },
+    {
+      "id": "ceiling-pogo",
+      "name": "Ceiling Pogo",
+      "description": "A pogo performed off the ceiling, bouncing the car off the ceiling surface for aerial setups.",
+      "category": "pogo",
+      "type": "ceiling",
+      "difficulty": 65,
+      "viability": 25,
+      "tags": ["pogo", "ceiling", "bounce"],
+      "prerequisites": ["pogo"]
+    },
+    {
+      "id": "reverse-pogo",
+      "name": "Reverse Pogo",
+      "description": "A pogo executed with the car in reverse orientation, bouncing the ball in an unexpected direction.",
+      "category": "pogo",
+      "type": "air",
+      "difficulty": 60,
+      "viability": 25,
+      "tags": ["pogo", "aerial", "reverse", "bounce"],
+      "prerequisites": ["pogo"]
+    },
+    {
+      "id": "flingshot",
+      "name": "Flingshot",
+      "description": "A pogo combined with a slingshot motion, launching the ball with high velocity after the bounce.",
+      "category": "pogo",
+      "type": "air",
+      "difficulty": 65,
+      "viability": 20,
+      "tags": ["pogo", "aerial", "slingshot", "power"],
+      "prerequisites": ["pogo", "slingshot"]
+    },
+
+    /*
+     * ==============================
+     *  PINCHES
+     * ==============================
+     */
+    {
+      "id": "kuxir-pinch",
+      "name": "Kuxir Pinch",
+      "description": "Pinching the ball between the car and the wall/corner to generate extreme power. Named after Kuxir97 who popularized it.",
+      "category": "pinch",
+      "type": "wall",
+      "difficulty": 55,
+      "viability": 30,
+      "tags": ["pinch", "wall", "power", "corner", "shot"],
+      "prerequisites": [],
+      "proponents": ["Kuxir97"]
+    },
+    {
+      "id": "ground-pinch",
+      "name": "Ground Pinch",
+      "description": "Pinching the ball between the car and the ground to create a powerful, low shot.",
+      "category": "pinch",
+      "type": "ground",
+      "difficulty": 60,
+      "viability": 20,
+      "tags": ["pinch", "ground", "power", "shot"],
+      "prerequisites": []
+    },
+    {
+      "id": "team-pinch",
+      "name": "Team Pinch",
+      "description": "Two teammates pinching the ball between their cars for extreme power. Requires excellent coordination.",
+      "category": "pinch",
+      "type": "ground",
+      "difficulty": 50,
+      "viability": 25,
+      "tags": ["pinch", "team", "power", "coordination"],
+      "prerequisites": []
+    },
+    {
+      "id": "team-groundpinch",
+      "name": "Team Groundpinch",
+      "description": "A team pinch executed on the ground, with both cars sandwiching the ball against the floor.",
+      "category": "pinch",
+      "type": "ground",
+      "difficulty": 55,
+      "viability": 25,
+      "tags": ["pinch", "team", "ground", "power"],
+      "prerequisites": ["team-pinch"]
+    },
+    {
+      "id": "team-ceiling-pinch",
+      "name": "Team Ceiling Pinch",
+      "description": "Two teammates pinching the ball against the ceiling for a high-powered downward shot.",
+      "category": "pinch",
+      "type": "ceiling",
+      "difficulty": 65,
+      "viability": 20,
+      "tags": ["pinch", "team", "ceiling", "power", "downward"],
+      "prerequisites": ["team-pinch"]
+    },
+    {
+      "id": "team-astral-pinch",
+      "name": "Team Astral Pinch",
+      "description": "An advanced team pinch that sends the ball in an unexpected, 'astral' trajectory. High skill and coordination required.",
+      "category": "pinch",
+      "type": "mixed",
+      "difficulty": 75,
+      "viability": 15,
+      "tags": ["pinch", "team", "astral", "power", "coordination"],
+      "prerequisites": ["team-pinch"]
+    },
+    {
+      "id": "astral-pinch",
+      "name": "Astral Pinch",
+      "description": "A solo pinch that sends the ball in an unpredictable, gravity-defying trajectory. Named for its 'astral' movement.",
+      "category": "pinch",
+      "type": "mixed",
+      "difficulty": 70,
+      "viability": 15,
+      "tags": ["pinch", "astral", "power", "unpredictable"],
+      "prerequisites": ["kuxir-pinch"]
+    },
+    {
+      "id": "ceiling-pinch",
+      "name": "Ceiling Pinch",
+      "description": "Pinching the ball against the ceiling to create a powerful downward shot that's hard to read.",
+      "category": "pinch",
+      "type": "ceiling",
+      "difficulty": 50,
+      "viability": 25,
+      "tags": ["pinch", "ceiling", "power", "downward"],
+      "prerequisites": []
+    },
+    {
+      "id": "bbl-pinch",
+      "name": "BBL Pinch",
+      "description": "A pinch that uses the backboard and ceiling in combination for a unique angle. Named after the BBL (BackBoard Love) community.",
+      "category": "pinch",
+      "type": "ceiling",
+      "difficulty": 45,
+      "viability": 30,
+      "tags": ["pinch", "ceiling", "backboard", "power"],
+      "prerequisites": ["ceiling-pinch"]
+    },
+    {
+      "id": "post-pinch",
+      "name": "Post Pinch",
+      "description": "Pinching the ball against the goal post to create an unexpected rebound or shot on net.",
+      "category": "pinch",
+      "type": "mixed",
+      "difficulty": 40,
+      "viability": 35,
+      "tags": ["pinch", "post", "rebound", "shot"],
+      "prerequisites": []
+    },
+
+    /*
+     * ==============================
+     *  REDIRECTS
+     * ==============================
+     */
+    {
+      "id": "sidewall-redirect",
+      "name": "Sidewall Redirect",
+      "description": "Redirecting the ball off the sidewall towards the net, often as a pass or unexpected shot.",
+      "category": "redirect",
+      "type": "wall",
+      "difficulty": 45,
+      "viability": 50,
+      "tags": ["redirect", "wall", "pass", "shot"],
+      "prerequisites": []
+    },
+    {
+      "id": "corner-read",
+      "name": "Corner Read",
+      "description": "Reading the ball off the corner and redirecting it on net with precision. A key mechanic for pass-based offense.",
+      "category": "redirect",
+      "type": "wall",
+      "difficulty": 50,
+      "viability": 55,
+      "tags": ["redirect", "corner", "pass", "shot", "read"],
+      "prerequisites": ["sidewall-redirect"]
+    },
+    {
+      "id": "psycho",
+      "name": "Psycho",
+      "description": "Redirecting the ball from one side of the net to the other, often crossing the entire goal mouth. One of the most spectacular redirects.",
+      "category": "redirect",
+      "type": "air",
+      "difficulty": 70,
+      "viability": 10,
+      "tags": ["redirect", "aerial", "cross_net", "spectacular"],
+      "prerequisites": ["redirect"]
+    },
+    {
+      "id": "corner-psycho",
+      "name": "Corner Psycho",
+      "description": "A psycho redirect executed from the corner, adding an extra layer of difficulty and angle management.",
+      "category": "redirect",
+      "type": "air",
+      "difficulty": 75,
+      "viability": 8,
+      "tags": ["redirect", "corner", "psycho", "aerial"],
+      "prerequisites": ["psycho", "corner-read"]
+    },
+    {
+      "id": "groundpinch-psycho",
+      "name": "Groundpinch Psycho",
+      "description": "Combining a ground pinch with a psycho redirect, creating a unique and highly unpredictable shot.",
+      "category": "redirect",
+      "type": "mixed",
+      "difficulty": 75,
+      "viability": 10,
+      "tags": ["redirect", "groundpinch", "psycho", "power"],
+      "prerequisites": ["psycho", "ground-pinch"]
+    },
+    {
+      "id": "musty-psycho",
+      "name": "Musty Psycho",
+      "description": "A psycho redirect executed with a musty flick motion, combining two iconic mechanics into one.",
+      "category": "redirect",
+      "type": "air",
+      "difficulty": 80,
+      "viability": 8,
+      "tags": ["redirect", "psycho", "musty", "aerial"],
+      "prerequisites": ["psycho", "musty-flick"]
+    },
+
+    /*
+     * ==============================
+     *  SHOTS
+     * ==============================
+     */
+    {
+      "id": "double-tap",
+      "name": "Double Tap",
+      "description": "Hitting the ball off the backboard and then immediately scoring the rebound before touching the ground.",
+      "category": "shot",
+      "type": "air",
+      "difficulty": 55,
+      "viability": 45,
+      "tags": ["shot", "aerial", "backboard", "rebound", "multi_touch"],
+      "prerequisites": ["fast-aerial"]
+    },
+    {
+      "id": "triple-tap",
+      "name": "Triple Tap",
+      "description": "A double tap with an extra touch — hitting the ball off the backboard, catching it in the air, and scoring on the second or third rebound.",
+      "category": "shot",
+      "type": "air",
+      "difficulty": 65,
+      "viability": 30,
+      "tags": ["shot", "aerial", "backboard", "rebound", "multi_touch"],
+      "prerequisites": ["double-tap"]
+    },
+    {
+      "id": "ceiling-double",
+      "name": "Ceiling Double",
+      "description": "A double tap executed from a ceiling shot setup, combining ceiling mechanics with backboard reads.",
+      "category": "shot",
+      "type": "ceiling",
+      "difficulty": 60,
+      "viability": 30,
+      "tags": ["shot", "ceiling", "double_tap", "aerial"],
+      "prerequisites": ["ceiling-shot", "double-tap"]
+    },
+    {
+      "id": "ground-double",
+      "name": "Ground Double",
+      "description": "A double tap that starts from the ground, typically requiring a high pop and quick aerial.",
+      "category": "shot",
+      "type": "air",
+      "difficulty": 50,
+      "viability": 40,
+      "tags": ["shot", "ground", "double_tap", "aerial"],
+      "prerequisites": ["double-tap"]
+    },
+    {
+      "id": "redirect",
+      "name": "Redirect (from pass)",
+      "description": "Redirecting a pass from a teammate on net. A fundamental team-play mechanic that requires good positioning and timing.",
+      "category": "redirect",
+      "type": "air",
+      "difficulty": 35,
+      "viability": 60,
+      "tags": ["redirect", "pass", "teamplay", "shot"],
+      "prerequisites": []
+    },
+
+    /*
+     * ==============================
+     *  SAVES
+     * ==============================
+     */
+    {
+      "id": "squishy-save",
+      "name": "Squishy Save",
+      "description": "A defensive mechanic where the player jumps off the backboard to make a save with a flip, often into a counter-attack. Popularized by SquishyMuffinz.",
+      "category": "save",
+      "type": "air",
+      "difficulty": 50,
+      "viability": 70,
+      "tags": ["save", "defense", "backboard", "counter"],
+      "prerequisites": [],
+      "proponents": ["SquishyMuffinz"]
+    },
+    {
+      "id": "zen-touch",
+      "name": "Zen Touch",
+      "description": "An incredibly calm and precise touch under pressure, making a difficult save or control look effortless. Named after Zen's playstyle.",
+      "category": "save",
+      "type": "mixed",
+      "difficulty": 80,
+      "viability": 60,
+      "tags": ["save", "defense", "control", "touch", "calm"],
+      "prerequisites": [],
+      "proponents": ["Zen"]
+    },
+
+    /*
+     * ==============================
+     *  DRIBBLE
+     * ==============================
+     */
+    {
+      "id": "two-wheel-drift",
+      "name": "Two Wheel Drift",
+      "description": "Driving on two wheels while dribbling the ball, used for style and to show extreme car control.",
+      "category": "dribble",
+      "type": "ground",
+      "difficulty": 40,
+      "viability": 20,
+      "tags": ["dribble", "ground", "style", "control"],
+      "prerequisites": ["ground-dribble"]
+    },
+    {
+      "id": "360-dribble",
+      "name": "360° Dribble",
+      "description": "Rotating the car 360 degrees while maintaining a ground dribble, demonstrating exceptional ball control.",
+      "category": "dribble",
+      "type": "ground",
+      "difficulty": 35,
+      "viability": 25,
+      "tags": ["dribble", "ground", "360", "control", "style"],
+      "prerequisites": ["ground-dribble"]
+    },
+
+    /*
+     * ==============================
+     *  FREESTYLE / FLASHY
+     * ==============================
+     */
+    {
+      "id": "reverse-musty",
+      "name": "Reverse Musty",
+      "description": "A musty flick performed backward, sending the ball in the opposite direction of a standard musty.",
+      "category": "dribble_flick",
+      "type": "ground",
+      "difficulty": 65,
+      "viability": 25,
+      "tags": ["flick", "ground", "reverse", "musty", "style"],
+      "prerequisites": ["musty-flick"]
+    }
+  ]
+}
