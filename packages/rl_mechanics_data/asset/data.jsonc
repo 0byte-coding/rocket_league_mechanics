@@ -77,9 +77,9 @@
  *   Notable players (pros or content creators) particularly known for
  *   popularizing or excelling at this mechanic.
  *
- * input_summary (string, optional):
- *   A brief description of the controller inputs required
- *   (e.g. "Air roll left + jump + boost + front flip").
+ * perform_instructions (string, optional):
+ *   A brief explanation of how to perform the mechanic, including
+ *   controller inputs and technique (e.g. "Air roll left + jump + boost + front flip").
  *
  * video_clips (object[], optional):
  *   Array of YouTube video references with optional time ranges for quick
@@ -114,7 +114,7 @@
       "viability": 85,
       "tags": ["aerial", "foundational", "speed", "jump"],
       "prerequisites": [],
-      "input_summary": "Jump + boost + pull back on left stick + second jump"
+      "perform_instructions": "Jump + boost + pull back on left stick + second jump"
     },
     {
       "id": "ground-dribble",
@@ -154,7 +154,7 @@
       "viability": 95,
       "tags": ["backwards", "recovery", "flip_cancel", "movement"],
       "prerequisites": [],
-      "input_summary": "Backflip + cancel + air roll",
+      "perform_instructions": "Backflip + cancel + air roll",
       "proponents": ["ApparentlyJack", "Lethamyr"]
     },
     {
@@ -167,7 +167,7 @@
       "viability": 80,
       "tags": ["fast", "recovery", "kickoff", "flip_cancel", "movement"],
       "prerequisites": ["half-flip"],
-      "input_summary": "Diagonal flip + cancel + air roll correction",
+      "perform_instructions": "Diagonal flip + cancel + air roll correction",
       "proponents": ["ApparentlyJack", "Musty", "Flakes"]
     },
     {
@@ -180,7 +180,7 @@
       "viability": 85,
       "tags": ["recovery", "ground", "speed", "movement"],
       "prerequisites": [],
-      "input_summary": "Jump + dodge into ground before landing"
+      "perform_instructions": "Jump + dodge into ground before landing"
     },
     {
       "id": "zap-dash",
@@ -455,7 +455,11 @@
       "viability": 60,
       "tags": ["flick", "backwards", "pop", "musty", "power"],
       "prerequisites": ["45-flick"],
-      "proponents": ["Musty"]
+      "proponents": ["Musty"],
+      "video_clips": [
+        {"url": "https://youtu.be/miD2BhacAp4?si=rovnny1QLFNRlGn1", "start": 616, "end": 620},
+        {"url": "https://youtu.be/miD2BhacAp4?si=rovnny1QLFNRlGn1", "start": 10, "end": 15}
+      ]
     },
     {
       "id": "breezi-flick",
@@ -612,7 +616,7 @@
       "viability": 45,
       "tags": ["flip_reset", "aerial", "foundational", "wheels_contact"],
       "prerequisites": ["fast-aerial"],
-      "input_summary": "Jump + boost + air roll to orient wheels to ball + touch ball with wheels"
+      "perform_instructions": "Jump + boost + air roll to orient wheels to ball + touch ball with wheels"
     },
     {
       "id": "arsenal-reset",
@@ -647,7 +651,7 @@
       "viability": 40,
       "tags": ["flip_reset", "ceiling", "aerial", "foundational"],
       "prerequisites": ["flip-reset"],
-      "input_summary": "Drive up wall + fall off ceiling + air dribble + flip into shot"
+      "perform_instructions": "Drive up wall + fall off ceiling + air dribble + flip into shot"
     },
     {
       "id": "rapid-reset",
@@ -692,7 +696,10 @@
       "viability": 15,
       "tags": ["flip_reset", "aerial", "heli", "air_roll", "spin"],
       "prerequisites": ["flip-reset", "hel-jump"],
-      "proponents": ["Heli"]
+      "proponents": ["Heli"],
+      "video_clips": [
+        {"url": "https://youtu.be/fxWDNb3Xqi0?si=OOq9XH7iHVgLmoyY", "start": 213, "end": 221}
+      ]
     },
     {
       "id": "maktuf-reset",
@@ -704,7 +711,10 @@
       "viability": 20,
       "tags": ["flip_reset", "aerial", "inverted", "underside"],
       "prerequisites": ["flip-reset"],
-      "proponents": ["Maktuf"]
+      "proponents": ["Maktuf"],
+      "video_clips": [
+        {"url": "https://youtu.be/OJ6DwhSVmUo?si=unsQEprhFV4C6mhK", "start": 1133, "end": 1141}
+      ]
     },
     {
       "id": "360-maktuf",
