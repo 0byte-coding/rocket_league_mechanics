@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useMemo, useCallback, useRef, useEffect } from "react"
+import React, { useState, useMemo, useCallback, useRef } from "react"
 import type { Mechanic, MechanicCategory, MechanicType, ActiveFilters } from "@/lib/types"
 import { get_all_tags } from "@/lib/data"
 import { RANK_TIERS } from "@/lib/ranks"
@@ -16,8 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
-import { ChevronDownIcon, ChevronUpIcon, XIcon, SearchIcon, FilterIcon } from "lucide-react"
+import { ChevronDownIcon, ChevronUpIcon, XIcon, SearchIcon, FilterIcon, HelpCircleIcon } from "lucide-react"
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -141,10 +147,8 @@ const use_column_widths = (cols: ColDef[]) => {
     [widths, cols]
   )
 
-  // Sum of all columns except the last, which stretches to fill remaining space
-  const min_width = Object.entries(widths)
-    .filter(([id]) => id !== COLUMNS[COLUMNS.length - 1].id)
-    .reduce((a, [, w]) => a + w, 0)
+  // Sum of all columns to ensure minimum width covers everything
+  const min_width = Object.values(widths).reduce((a, w) => a + w, 0)
 
   return { widths, on_drag_start, min_width }
 }
@@ -177,6 +181,10 @@ const DifficultyBar: React.FC<DifficultyBarProps> = ({ value }) => {
     </div>
   )
 }
+
+const DIFFICULTY_TOOLTIP = "How difficult the mechanic is to learn and execute consistently.\n\nCalibration guide:\n• 0–20: Bronze to Gold (basic car control)\n• 20–40: Platinum to Diamond (intermediate)\n• 40–60: Champion 1–3 (advanced)\n• 60–75: Grand Champion 1–3 (high-level)\n• 75–85: SSL / Low-Pro (elite)\n• 85–95: Freestyler tier\n• 95–100: Nigh impossible"
+
+const VIABILITY_TOOLTIP = "How viable it is to go for it in competitive play"
 
 interface ViabilityBarProps {
   value: number
@@ -221,13 +229,15 @@ interface SortHeaderProps {
   current_key: SortKey
   current_dir: SortDir
   on_sort: (key: SortKey) => void
+  tooltip?: string
 }
 
 const SortHeader: React.FC<SortHeaderProps> = ({
-  label, sort_key, current_key, current_dir, on_sort,
+  label, sort_key, current_key, current_dir, on_sort, tooltip,
 }) => {
   const is_active = current_key === sort_key
-  return (
+
+  const header_content = (
     <button
       onClick={() => on_sort(sort_key)}
       className={cn(
@@ -241,6 +251,22 @@ const SortHeader: React.FC<SortHeaderProps> = ({
         <ChevronDownIcon className={cn("h-2.5 w-2.5 -mt-0.5", is_active && current_dir === "desc" ? "text-primary" : "text-muted-foreground/40")} />
       </span>
     </button>
+  )
+
+  if (!tooltip) return header_content
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="flex items-center gap-1">
+          {header_content}
+          <HelpCircleIcon className="h-3 w-3 text-muted-foreground/50 hover:text-muted-foreground cursor-help" />
+        </div>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="max-w-xs whitespace-pre-wrap text-left">
+        {tooltip}
+      </TooltipContent>
+    </Tooltip>
   )
 }
 
@@ -330,9 +356,10 @@ const MechanicsTable: React.FC<MechanicsTableProps> = ({ mechanics }) => {
   }, [mechanics, filters, sort_key, sort_dir])
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* ---- Toolbar ---- */}
-      <div className="flex flex-col gap-3">
+    <TooltipProvider>
+      <div className="flex flex-col gap-4">
+        {/* ---- Toolbar ---- */}
+        <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2">
           <div className="relative flex-1 min-w-48">
             <SearchIcon className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
@@ -564,6 +591,7 @@ const MechanicsTable: React.FC<MechanicsTableProps> = ({ mechanics }) => {
                       current_key={sort_key}
                       current_dir={sort_dir}
                       on_sort={handle_sort}
+                      tooltip={col.id === "difficulty" ? DIFFICULTY_TOOLTIP : col.id === "viability" ? VIABILITY_TOOLTIP : undefined}
                     />
                   ) : (
                     <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">{col.label}</span>
@@ -598,7 +626,8 @@ const MechanicsTable: React.FC<MechanicsTableProps> = ({ mechanics }) => {
           </tbody>
         </table>
       </div>
-    </div>
+      </div>
+    </TooltipProvider>
   )
 }
 
