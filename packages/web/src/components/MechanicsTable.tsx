@@ -655,7 +655,7 @@ const MechanicRow: React.FC<MechanicRowProps> = ({ mechanic, widths, on_drag_sta
       >
         {/* Name */}
         <td className={cn(td, "font-medium")} style={{ width: widths.name }}>
-          <div className="flex flex-col gap-0.5 break-words">
+          <div className="flex flex-col gap-0.5 wrap-break-word">
             <span>{mechanic.name}</span>
             {mechanic.aliases && mechanic.aliases.length > 0 && (
               <span className="text-[11px] text-muted-foreground">aka {mechanic.aliases.join(", ")}</span>
@@ -693,7 +693,7 @@ const MechanicRow: React.FC<MechanicRowProps> = ({ mechanic, widths, on_drag_sta
 
         {/* Description + Tags */}
         <td className={td} style={{ width: widths.description }}>
-          <p className="text-xs text-muted-foreground mb-1.5 break-words leading-relaxed">
+          <p className="text-xs text-muted-foreground mb-1.5 wrap-break-word leading-relaxed">
             {mechanic.description}
           </p>
           <div className="flex flex-wrap gap-1">
@@ -735,9 +735,9 @@ const MechanicRow: React.FC<MechanicRowProps> = ({ mechanic, widths, on_drag_sta
               <p className="text-sm text-foreground leading-relaxed">{mechanic.description}</p>
 
               {mechanic.perform_instructions && (
-                <div>
+                <div className="flex flex-col">
                   <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">How to perform</span>
-                  <p className="mt-1 text-sm font-mono bg-muted rounded px-2 py-1 inline-block break-words">
+                  <p className="mt-1 text-sm font-mono rounded px-2 py-1 inline-block wrap-break-word">
                     {mechanic.perform_instructions}
                   </p>
                 </div>
