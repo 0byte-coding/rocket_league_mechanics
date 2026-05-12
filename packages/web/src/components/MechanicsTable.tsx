@@ -141,9 +141,12 @@ const use_column_widths = (cols: ColDef[]) => {
     [widths, cols]
   )
 
-  const total_width = Object.values(widths).reduce((a, b) => a + b, 0)
+  // Sum of all columns except the last, which stretches to fill remaining space
+  const min_width = Object.entries(widths)
+    .filter(([id]) => id !== COLUMNS[COLUMNS.length - 1].id)
+    .reduce((a, [, w]) => a + w, 0)
 
-  return { widths, on_drag_start, total_width }
+  return { widths, on_drag_start, min_width }
 }
 
 // ---------------------------------------------------------------------------
@@ -254,7 +257,7 @@ const MechanicsTable: React.FC<MechanicsTableProps> = ({ mechanics }) => {
   const [sort_key, set_sort_key] = useState<SortKey>("difficulty")
   const [sort_dir, set_sort_dir] = useState<SortDir>("asc")
   const [show_filters, set_show_filters] = useState(false)
-  const { widths, on_drag_start, total_width } = use_column_widths(COLUMNS)
+  const { widths, on_drag_start, min_width } = use_column_widths(COLUMNS)
 
   const all_tags = useMemo(() => get_all_tags(mechanics), [mechanics])
   const all_categories = useMemo(
@@ -537,21 +540,21 @@ const MechanicsTable: React.FC<MechanicsTableProps> = ({ mechanics }) => {
       <div className="rounded-lg border border-border overflow-hidden overflow-x-auto">
         {/* Use a plain <table> so we control layout precisely */}
         <table
-          style={{ width: total_width, tableLayout: "fixed", borderCollapse: "collapse" }}
+          style={{ width: "100%", minWidth: min_width, tableLayout: "fixed", borderCollapse: "collapse" }}
           className="text-xs"
         >
           <colgroup>
-            {COLUMNS.map((col) => (
-              <col key={col.id} style={{ width: widths[col.id] }} />
+            {COLUMNS.map((col, i) => (
+              <col key={col.id} style={i < COLUMNS.length - 1 ? { width: widths[col.id] } : undefined} />
             ))}
           </colgroup>
 
           <thead>
             <tr className="border-b border-border bg-muted/50">
-              {COLUMNS.map((col) => (
+              {COLUMNS.map((col, i) => (
                 <th
                   key={col.id}
-                  style={{ width: widths[col.id] }}
+                  style={i < COLUMNS.length - 1 ? { width: widths[col.id] } : undefined}
                   className="relative h-10 px-2 text-left align-middle font-medium overflow-hidden"
                 >
                   {col.sortable && col.sort_key ? (
@@ -678,10 +681,9 @@ const MechanicRow: React.FC<MechanicRowProps> = ({ mechanic, widths, on_drag_sta
           </div>
         </td>
 
-        {/* Video Clips */}
+        {/* Video Clips — no explicit width, stretches to fill remaining space */}
         <td
           className={td}
-          style={{ width: widths.clips }}
           onClick={(e) => e.stopPropagation()}
         >
           {mechanic.video_clips && mechanic.video_clips.length > 0 ? (
