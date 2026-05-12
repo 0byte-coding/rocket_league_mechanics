@@ -1,6 +1,28 @@
 import React from "react"
 import { get_rank_for_difficulty, type RankInfo } from "@/lib/ranks"
 import { cn } from "@/lib/utils"
+import img_bronze1 from '../asset/ranks/bronze1.webp';
+import img_bronze2 from '../asset/ranks/bronze2.webp';
+import img_bronze3 from '../asset/ranks/bronze3.webp';
+import img_silver1 from '../asset/ranks/silver1.webp';
+import img_silver2 from '../asset/ranks/silver2.webp';
+import img_silver3 from '../asset/ranks/silver3.webp';
+import img_gold1 from '../asset/ranks/gold1.webp';
+import img_gold2 from '../asset/ranks/gold2.webp';
+import img_gold3 from '../asset/ranks/gold3.webp';
+import img_plat1 from '../asset/ranks/plat1.webp';
+import img_plat2 from '../asset/ranks/plat2.webp';
+import img_plat3 from '../asset/ranks/plat3.webp';
+import img_d1 from '../asset/ranks/d1.webp';
+import img_d2 from '../asset/ranks/d2.webp';
+import img_d3 from '../asset/ranks/d3.webp';
+import img_c1 from '../asset/ranks/c1.webp';
+import img_c2 from '../asset/ranks/c2.webp';
+import img_c3 from '../asset/ranks/c3.webp';
+import img_gc1 from '../asset/ranks/gc1.webp';
+import img_gc2 from '../asset/ranks/gc2.webp';
+import img_gc3 from '../asset/ranks/gc3.webp';
+import img_ssl from '../asset/ranks/ssl.webp';
 
 interface RankIconProps {
   difficulty: number
@@ -9,93 +31,102 @@ interface RankIconProps {
   className?: string
 }
 
-const Bronze: React.FC<{ color: string; size: number }> = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
-    <polygon points="20,4 36,34 4,34" fill={color} opacity="0.85" />
-    <polygon points="20,10 30,30 10,30" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-    <text x="20" y="27" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold" fontFamily="sans-serif">I</text>
-  </svg>
+const Bronze1: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_bronze1.src} width={size} height={size}/>
+)
+const Bronze2: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_bronze2.src} width={size} height={size}/>
+)
+const Bronze3: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_bronze3.src} width={size} height={size}/>
 )
 
-const Silver: React.FC<{ color: string; size: number }> = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
-    <polygon points="20,4 36,34 4,34" fill={color} opacity="0.85" />
-    <polygon points="20,10 30,30 10,30" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-    <text x="20" y="27" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="sans-serif">II</text>
-  </svg>
+const Silver1: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_silver1.src} width={size} height={size}/>
+)
+const Silver2: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_silver2.src} width={size} height={size}/>
+)
+const Silver3: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_silver3.src} width={size} height={size}/>
 )
 
-const Gold: React.FC<{ color: string; size: number }> = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
-    <rect x="4" y="4" width="32" height="32" rx="4" fill={color} opacity="0.85" />
-    <rect x="9" y="9" width="22" height="22" rx="2" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
-    <text x="20" y="26" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold" fontFamily="sans-serif">III</text>
-  </svg>
+const Gold1: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_gold1.src} width={size} height={size}/>
+)
+const Gold2: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_gold2.src} width={size} height={size}/>
+)
+const Gold3: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_gold3.src} width={size} height={size}/>
 )
 
-const Platinum: React.FC<{ color: string; size: number }> = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
-    <polygon points="20,4 36,14 36,26 20,36 4,26 4,14" fill={color} opacity="0.85" />
-    <polygon points="20,9 31,17 31,25 20,33 9,25 9,17" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-    <circle cx="20" cy="20" r="5" fill="rgba(255,255,255,0.5)" />
-  </svg>
+const Platinum1: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_plat1.src} width={size} height={size}/>
+)
+const Platinum2: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_plat2.src} width={size} height={size}/>
+)
+const Platinum3: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_plat3.src} width={size} height={size}/>
 )
 
-const Diamond: React.FC<{ color: string; size: number }> = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
-    <polygon points="20,4 36,20 20,36 4,20" fill={color} opacity="0.85" />
-    <polygon points="20,10 30,20 20,30 10,20" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" />
-    <circle cx="20" cy="20" r="4" fill="rgba(255,255,255,0.6)" />
-  </svg>
+const Diamond1: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_d1.src} width={size} height={size}/>
+)
+const Diamond2: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_d2.src} width={size} height={size}/>
+)
+const Diamond3: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_d3.src} width={size} height={size}/>
 )
 
-const Champion: React.FC<{ color: string; size: number }> = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
-    <path d="M20 4 L36 20 L20 36 L4 20 Z" fill={color} opacity="0.85" />
-    <path d="M20 10 L30 20 L20 30 L10 20 Z" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
-    <path d="M14 16 L20 10 L26 16 L22 20 L26 24 L20 30 L14 24 L18 20 Z" fill="rgba(255,255,255,0.25)" />
-    <circle cx="20" cy="20" r="3.5" fill="rgba(255,255,255,0.7)" />
-  </svg>
+const Champion1: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_c1.src} width={size} height={size}/>
+)
+const Champion2: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_c2.src} width={size} height={size}/>
+)
+const Champion3: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_c3.src} width={size} height={size}/>
 )
 
-const GrandChampion: React.FC<{ color: string; size: number }> = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
-    <defs>
-      <radialGradient id="gc_grad" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor={color} stopOpacity="1" />
-        <stop offset="100%" stopColor="#800000" stopOpacity="1" />
-      </radialGradient>
-    </defs>
-    <circle cx="20" cy="20" r="16" fill="url(#gc_grad)" />
-    <circle cx="20" cy="20" r="12" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" />
-    <polygon points="20,10 22.5,17 30,17 24,21.5 26.5,29 20,24.5 13.5,29 16,21.5 10,17 17.5,17" fill="rgba(255,255,255,0.55)" />
-  </svg>
+const GrandChampion1: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_gc1.src} width={size} height={size}/>
+)
+const GrandChampion2: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_gc2.src} width={size} height={size}/>
+)
+const GrandChampion3: React.FC<{ color: string; size: number }> = ({ color, size }) => (
+  <img src={img_gc3.src} width={size} height={size}/>
 )
 
 const SSL: React.FC<{ color: string; size: number }> = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
-    <defs>
-      <radialGradient id="ssl_grad" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-        <stop offset="50%" stopColor={color} stopOpacity="1" />
-        <stop offset="100%" stopColor="#8800aa" stopOpacity="1" />
-      </radialGradient>
-    </defs>
-    <circle cx="20" cy="20" r="16" fill="url(#ssl_grad)" />
-    <circle cx="20" cy="20" r="12" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1" strokeDasharray="2 2" />
-    <circle cx="20" cy="20" r="7" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1" />
-    <polygon points="20,9 22.5,16.5 30.5,16.5 24,21 26.5,28.5 20,24 13.5,28.5 16,21 9.5,16.5 17.5,16.5" fill="rgba(255,255,255,0.85)" />
-  </svg>
+  <img src={img_ssl.src} width={size} height={size}/>
 )
 
 const RANK_ICON_MAP: Record<string, React.FC<{ color: string; size: number }>> = {
-  bronze: Bronze,
-  silver: Silver,
-  gold: Gold,
-  platinum: Platinum,
-  diamond: Diamond,
-  champion: Champion,
-  grand_champion: GrandChampion,
+  bronze1: Bronze1,
+  bronze2: Bronze2,
+  bronze3: Bronze3,
+  silver1: Silver1,
+  silver2: Silver2,
+  silver3: Silver3,
+  gold1: Gold1,
+  gold2: Gold2,
+  gold3: Gold3,
+  platinum1: Platinum1,
+  platinum2: Platinum2,
+  platinum3: Platinum3,
+  diamond1: Diamond1,
+  diamond2: Diamond2,
+  diamond3: Diamond3,
+  champion1: Champion1,
+  champion2: Champion2,
+  champion3: Champion3,
+  grand_champion1: GrandChampion1,
+  grand_champion2: GrandChampion2,
+  grand_champion3: GrandChampion3,
   ssl: SSL,
 }
 
