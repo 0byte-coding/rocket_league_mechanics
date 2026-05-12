@@ -8,7 +8,7 @@ The mechanics data lives in [packages/rl_mechanics_data/asset/data.jsonc](packag
 
 ---
 
-Special thanks to [u/Accurate_Echidna_216](https://www.reddit.com/user/Accurate_Echidna_216/) for providing and maintaining up-to-date mechanics for the game. This project wouldn't be possible without their contributions.
+Special thanks to [u/Accurate_Echidna_216](https://www.reddit.com/user/Accurate_Echidna_216/) for the initial provided mechanics list for the game. This project wouldn't be possible without their contributions.
 
 ---
 
