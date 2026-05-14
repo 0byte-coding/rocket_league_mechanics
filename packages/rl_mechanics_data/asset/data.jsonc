@@ -1,13 +1,103 @@
-
 /*
  * Rocket League Mechanics Data
- * ============================
+ * =============================
  *
- * Comprehensive collection of verified mechanics.
+ * This file contains a curated list of Rocket League mechanics, their attributes,
+ * difficulty ratings, and metadata for use in the RL Mechanics web application.
+ *
+ * === Fields ===
+ *
+ * id (string, required):
+ *   Unique slug kebab-case identifier for programmatic use (e.g. "half-flip").
+ *
+ * name (string, required):
+ *   The common display name of the mechanic.
+ *
+ * aliases (string[], optional):
+ *   Alternative names the mechanic is known by (e.g. "Cabbage Muncher" → ["Seba Flick"]).
+ *
+ * description (string, required):
+ *   A short (1-3 sentence) explanation of what the mechanic is.
+ *
+ * category (string, required):
+ *   The primary category the mechanic belongs to.
+ *   Allowed values:
+ *     "flip_reset"    — Mechanics that involve resetting your flip via ball contact
+ *     "dribble_flick" — Flicks performed while the ball is carried on your car
+ *     "pinch"         — Any form of ball pinch (car-to-ball, car-to-wall, etc.)
+ *     "powershot"     — High-power shots on net
+ *     "dribble"       — Ground or air dribbling the ball
+ *     "air_dribble"   — Air dribbling specifically
+ *     "redirect"      — Redirecting the ball's trajectory
+ *     "pogo"          — Pogo stick-like bounces on the ball
+ *     "dash"          — Dash-based movement, recovery, or speed techniques
+ *     "save"          — Defensive/saving mechanics
+ *     "shot"          — General shooting mechanics
+ *     "movement"      — Car movement/maneuvering techniques
+ *     "unknown"       — Not yet categorized
+ *
+ * type (string, optional):
+ *   Where the mechanic is typically performed.
+ *   Values: "ground", "air", "wall", "ceiling", "mixed"
+ *
+ * difficulty (number, required, 0-100):
+ *   How difficult the mechanic is to learn and execute consistently.
+ *   Calibration guide:
+ *     0-20   — Bronze to Gold (basic car control)
+ *     20-40  — Platinum to Diamond (intermediate)
+ *     40-60  — Champion 1-3 (advanced)
+ *     60-75  — Grand Champion 1-3 (high-level)
+ *     75-85  — SSL / Low-Pro (elite)
+ *     85-95  — Freestyler tier
+ *     95-100 — Nigh impossible / undiscovered
+ *   Reference points:
+ *     60 ≈ Champion 3 (Ground Pinch)
+ *     80 ≈ SSL average
+ *     85 ≈ Pro player
+ *     95 ≈ Freestyler specialist
+ *
+ * viability (number, required, 0-100):
+ *   How effective/useful the mechanic is in a competitive match setting.
+ *   0   = Never works, purely freestyle/flashy
+ *   50  = Works ~50% of the time against good defenders
+ *   100 = Guaranteed goal if executed
+ *   Note: Even flashy mechanics can have high viability if executed in the
+ *   right situation. This reflects the % chance it beats a competent defender.
+ *
+ * tags (string[], required):
+ *   Keywords that describe the mechanic's properties. Used for filtering and
+ *   search. Examples: "backwards", "recovery", "flip_cancel", "air_roll",
+ *   "directional_air_roll", "musty", "stall", "multi_touch", etc.
+ *
+ * prerequisites (string[], optional):
+ *   Array of mechanic 'id' values that are recommended to master before
+ *   attempting this mechanic. Helps build a learning path.
+ *
+ * proponents (string[], optional):
+ *   Notable players (pros or content creators) particularly known for
+ *   popularizing or excelling at this mechanic.
+ *
+ * perform_instructions (string, optional):
+ *   A brief explanation of how to perform the mechanic, including
+ *   controller inputs and technique (e.g. "Air roll left + jump + boost + front flip").
+ *
+ * video_clips (object[], optional):
+ *   Array of YouTube video references with optional time ranges for quick
+ *   visual reference.
+ *   Fields:
+ *     url  (string, required) — Full YouTube URL
+ *     start (number, optional) — Start time in seconds
+ *     end   (number, optional) — End time in seconds
+ *
+ * === Notes ===
+ * - Difficulty and viability are subjective estimates based on community
+ *   consensus and may vary across patches/rankings.
+ * - Categories may overlap; the 'category' field holds the primary grouping,
+ *   while 'tags' capture secondary classifications.
+ * - Feel free to submit corrections via PR.
  */
-
 {
-  "version": 1,
+  "version": 2,
   "mechanics": [
     {
       "id": "fast-aerial",
